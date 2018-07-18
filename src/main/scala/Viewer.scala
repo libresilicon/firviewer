@@ -24,8 +24,6 @@ object Main extends JFXApp {
 		var topLevelName = parameters.named("top")
 		val w = 1000
 		val h = 1000
-		var depth = 3
-		if ( parameters.named contains "depth" ) depth = parameters.named("depth").toInt
 
 		val input: String = scala.io.Source.fromFile(firFile).mkString
 		val state = CircuitState(firrtl.Parser.parse(input), UnknownForm)
@@ -35,8 +33,8 @@ object Main extends JFXApp {
 				t.runTransform(c)
 			}
 		}
-		val modules = for ( graph <- transforms ) yield graph.getSceneContent(depth, topLevelName)
-		for ( mod <- modules ) mod.setPos(50,50)
+		val modules = for ( graph <- transforms ) yield graph.getSceneContent(topLevelName)
+		for ( mod <- modules ) mod.relocate(50,50)
 		stage = new PrimaryStage {
 			title.value = "FIR viewer"
 			width = w
